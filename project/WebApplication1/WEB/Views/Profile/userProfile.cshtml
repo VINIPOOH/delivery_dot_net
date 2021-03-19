@@ -1,0 +1,45 @@
+﻿@model object
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profile</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="border border-info mt-2 rounded">
+                <p>User money</p>
+                <p>@ViewData["userMoneyInCents"]</p>
+            </div>
+        </div>
+        <div class="col-md-6 ">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-heading">Replenish account</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form" method="post" asp-controller="Profile" asp-action="userProfileReplenish">
+                        @if (ViewData.ContainsKey("incorrectMoney"))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <p th:if="${incorrectMoney}">incorrect money</p>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <input class="form-control" id="money" name="money" type="number">
+                        </div>
+                        <button class="btn btn-success" type="submit">Replenish</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

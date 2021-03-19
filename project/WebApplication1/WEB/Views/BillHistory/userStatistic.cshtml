@@ -1,0 +1,25 @@
+﻿@using BLL.dto
+@model object
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<html>
+<head>
+    <title>Bill history</title>
+</head>
+<body>
+<div class="container" name="deliveries">
+    @foreach (BillModel billModel in (IEnumerable<BillModel>) ViewData["BillDtoPage"])
+    {
+    <div class="row border border-info mt-2 rounded" >
+        <p1>Bill number @billModel.Id delivery number 
+            @billModel.DeliveryId price @billModel.CostInCents date @billModel.DateOfPay
+        </p1>
+    </div>
+    }
+</div>
+</body>
+</html>

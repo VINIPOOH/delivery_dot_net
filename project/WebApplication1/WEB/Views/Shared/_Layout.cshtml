@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - WEB</title>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="row border border-green">
+        <nav class="navbar navbar-default col-md-7">
+            <div class="container-fluid">
+                <div class="navbar-header col-md-2">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Home">X-delivery</a>
+                </div>
+                <div class="col-md-10 row justify-content-start">
+                    <a class="col-2" asp-area="" asp-controller="Home" asp-action="Home">HOME</a>
+                    <a class="col-2" asp-area="" asp-controller="DeliveryGet" asp-action="userNotGottenDelivers">CABINET</a>
+                </div>
+            </div>
+        </nav>
+        <div class="col-md-1">
+            <!--для кнопки логин или логаут-->
+        </div>
+        <div class="col-md-4">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="col-md-6">
+                    <label>@User.Identity.Name</label>
+                </div>
+                <div class="col-md-6">
+                    <a class="btn border" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                </div>
+            }
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="row" sec:authorize="!isAuthenticated()">
+                    <a class="btn btn-success" asp-area="" asp-controller="Account" asp-action="Login" type="submit">Login</a>
+                    <a align="left" class="btn" asp-area="" asp-controller="Account" asp-action="Register">Registeration</a>
+                </div>
+            }
+
+        </div>
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="row border border-secondary">
+            <nav class="navbar navbar-default col-md-12">
+                <div class="container-fluid row">
+                    <div class="col-md-10 row justify-content-start">
+                        <a class="col-2"  asp-area="" asp-controller="DeliveryGet" asp-action="userNotGottenDelivers">
+                            DELIVERY TO GET
+                        </a>
+                        <a class="col-1" asp-area="" asp-controller="Profile" asp-action="userProfile">
+                            PROFILE
+                        </a>
+                        <a class="col-2" asp-area="" asp-controller="UserDeliveryInitiation" asp-action="userDeliveryInitiation">
+                            DELIVERY ORDER
+                        </a>
+                        <a class="col-2" asp-area="" asp-controller="DeliveryPay" asp-action="userConfirmDelivers">
+                            PAYMENTS
+                        </a>
+                        <a class="col-2" asp-area="" asp-controller="BillHistory" asp-action="userStatistic">
+                            STATISTICS
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    }
+
+</header>
+
+
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+@RenderSection("Scripts", required: false)
+</body>
+</html>

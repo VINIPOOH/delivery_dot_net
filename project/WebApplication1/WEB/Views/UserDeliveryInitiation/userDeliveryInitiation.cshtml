@@ -1,0 +1,94 @@
+﻿@using BLL.dto
+@model BLL.dto.DeliveryOrderCreateModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{homepage.title}">INITIATE DELIVERY</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-heading" th:text="#{homepage.form.header}">Delivery Request Creation</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form" id="form" method="post" asp-controller="UserDeliveryInitiation" asp-action="userDeliveryInitiationPost">
+                        <div>
+                            @if (ViewData.ContainsKey("incorrectWeightInput"))
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    <p>The weight you entered cannot be transported on this route.</p>
+                                </div>
+                            }
+                            @if (ViewData.ContainsKey("unsupportableWeightFactorException"))
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    <p>On this route it is not permissible to transport such weight.</p>
+                                </div>
+                            }
+                            @if (ViewData.ContainsKey("noSuchWayException"))
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    <p>Sorry, this route does not yet exist.</p>
+                                </div>
+                            }
+                            @if (ViewData.ContainsKey("addresseeIsNotExist"))
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    <p>There is no user account with the email you entered.</p>
+                                </div>
+                            }
+                        </div>
+                        <div asp-validation-summary="ModelOnly"></div>
+                        <div>
+                            <label asp-for="DeliveryWeight">Package weight</label><br/>
+                            <input asp-for="DeliveryWeight"/>
+                            <span asp-validation-for="DeliveryWeight"></span>
+                        </div>
+                        <div>
+
+                            <label asp-for="LocalitySandId">Point of shipment</label><br/>
+                            <select asp-for="LocalitySandId" class="form-control" form="form" th:field="*{localitySandID}" id="localitySandIDSelect">
+                                @foreach (LocalityModel localityModel in (IEnumerable<LocalityModel>) @ViewData["localities"])
+                                {
+                                    <option id="localitySandID" name="localitySandID"
+                                            value="@localityModel.Id">
+                                        @localityModel.Name</option>
+                                }
+
+                            </select>
+                            <span asp-validation-for="LocalitySandId"></span>
+                        </div>
+                        <div>
+                            <label asp-for="LocalityGetId">Reception point</label><br/>
+                            <select asp-for="LocalityGetId" class="form-control" form="form" id="localityGetID">
+                                @foreach (LocalityModel localityModel in (IEnumerable<LocalityModel>) @ViewData["localities"])
+                                {
+                                    <option id="localityGetID" name="localityGetID"
+                                            value="@localityModel.Id">
+                                        @localityModel.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="LocalityGetId"></span>
+                        </div>
+                        <div>
+                            <label asp-for="DeliveryWeight">Recipient Email </label><br/>
+                            <input asp-for="AddresseeEmail"/>
+                            <span asp-validation-for="AddresseeEmail"></span>
+                        </div>
+                        <p1></p1>
+                        <button class="btn btn-success" type="submit">Place Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

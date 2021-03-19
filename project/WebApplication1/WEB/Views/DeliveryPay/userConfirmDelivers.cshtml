@@ -1,0 +1,50 @@
+﻿@using BLL.dto
+@model object
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<html>
+<head>
+    <title>Deliveies to pay</title>
+</head>
+<body>
+<div class="container" name="deliveries-which-wait-getting">
+    @foreach (BillInfoToPayModel dto in (IEnumerable<BillInfoToPayModel>) ViewData["BillInfoToPayDtoList"])
+    {
+        <div class="row border border-info mt-2 rounded">
+            <div class="card-body col-md-3">
+                <h5 class="card-title">Sending to user @dto.AddreeseeEmail</h5>
+            </div>
+            <div class="col-md-4 mt-3">
+                <p1 class="list-group-item">Sending from @dto.LocalitySandName</p1>
+            </div>
+            <div class="col-md-3 mt-3">
+                <p1 class="list-group-item">Sending to @dto.LocalityGetName</p1>
+            </div>
+            <div class="col-md-3 mt-3">
+                <p1 class="list-group-item">Delivery Id @dto.DeliveryId</p1>
+            </div>
+            <div class="col-md-3 mt-3">
+                <p1 class="list-group-item">Delivery price @dto.Price</p1>
+            </div>
+            <div class="card-body col-md-2">
+                <form class="form" method="post" asp-controller="DeliveryPay" asp-action="payForDelivery">
+                    @if (ViewData.ContainsKey("notEnoughMoneyException"))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <p>not enough money</p>
+                        </div>
+                    }
+                    <input name="billId" value="@dto.BillId" type="hidden">
+                    <button class="btn btn-success" type="submit">Pay</button>
+                </form>
+            </div>
+
+        </div>
+    }
+</div>
+</body>
+</html>

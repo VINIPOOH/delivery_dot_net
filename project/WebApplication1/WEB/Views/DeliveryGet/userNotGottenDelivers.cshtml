@@ -1,0 +1,54 @@
+﻿@using BLL.dto
+@model object
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Deliveries to get</title>
+</head>
+<body>
+<div class="container" name="deliveries-which-wait-getting">
+    @foreach (DeliveryInfoToGetDto dto in (IEnumerable<DeliveryInfoToGetDto>) ViewData["DeliveryInfoToGetDtoList"])
+    {
+        <div class="row border border-info mt-2 rounded">
+            <div class="card-body col-md-3">
+                <h5 class="card-title">
+                    From user 
+                    @dto.AddresserEmail
+                     Delivery number 
+                    @dto.DeliveryId
+                    "
+                </h5>
+            </div>
+            <div class="col-md-4 mt-3">
+                <p1 class="list-group-item">
+                    Sent from the city 
+                    @dto.LocalitySandName
+                </p1>
+            </div>
+            <div class="col-md-3 mt-3">
+                <p1 class="list-group-item">
+                    Sent to city 
+                    @dto.LocalityGetName
+                    "
+                </p1>
+
+            </div>
+            <div class="card-body col-md-2">
+                <form class="form" method="post" asp-controller="DeliveryGet" asp-action="userConfirmDeliveryPay">
+                    <input name="billId" value="@dto.DeliveryId" type="hidden">
+                    <button class="btn btn-success" type="submit">
+                        confirm getting delivery
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+</body>
+</html>

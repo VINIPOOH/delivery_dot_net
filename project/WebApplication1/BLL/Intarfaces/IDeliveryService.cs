@@ -5,12 +5,11 @@ using DAL.Entity;
 namespace BLL.Intarfaces
 {
     public interface IDeliveryService
-         {
-        List<DeliveryInfoToGetDto> getDeliveryInfoToGet(string userName);
+    {
+        List<DeliveryInfoToGetDto> GetDeliveryInfoToGet(string userName);
 
-        bool confirmGettingDelivery(string userName, long deliveryId);
+        bool ConfirmGettingDelivery(string userName, long deliveryId);
 
-        PriceAndTimeOnDeliveryModel getDeliveryCostAndTimeDto(DeliveryInfoRequestModel deliveryInfoRequestDto);
-
+        PriceAndTimeOnDeliveryModel GetDeliveryCostAndTimeDto(DeliveryInfoRequestModel deliveryInfoRequestDto);
     }
 }

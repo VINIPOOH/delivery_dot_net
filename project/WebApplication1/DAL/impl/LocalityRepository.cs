@@ -12,7 +12,7 @@ namespace DAL.impl
         {
         }
 
-        public IEnumerable<Locality> findGetLocalitiesByLocalitySandId(long idToSearch)
+        public IEnumerable<Locality> FindGetLocalitiesByLocalitySandId(long idToSearch)
         {
             return base.Get(locality => locality.WaysWhereThisLocalityIsGet
                 .Exists(way => way.LocalitySandLocalityId.Equals(idToSearch)));

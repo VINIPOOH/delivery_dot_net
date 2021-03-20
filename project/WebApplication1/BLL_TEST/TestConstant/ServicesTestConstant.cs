@@ -93,7 +93,7 @@ namespace BLL_TEST.TestConstant
 
         public static TariffWeightFactor getTariffWeightFactor()
         {
-            return new TariffWeightFactor(1l, 0, 100, 1);
+            return new TariffWeightFactor(1L, 0, 100, 1);
         }
 
         public static Locality getLocalitySend()
@@ -106,7 +106,7 @@ namespace BLL_TEST.TestConstant
             return new Locality(2, "Get");
         }
 
-        public static List<Locality> getLocalities()
+        public static List<Locality> GetLocalities()
         {
             return new List<Locality> {getLocalityGet()};
         }

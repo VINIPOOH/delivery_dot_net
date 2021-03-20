@@ -28,14 +28,14 @@ namespace BLL_TEST
         public void findByEmailAllCorrect()
         {
             User user = ServicesTestConstant.getAddreser();
-            userRepository.Setup(s => s.findByName(It.IsAny<string>())).Returns(user);
+            userRepository.Setup(s => s.FindByName(It.IsAny<string>())).Returns(user);
 
-            User result = userService.findByName(user.UserName);
+            User result = userService.FindByName(user.UserName);
 
             Assert.AreEqual(user, result);
             userRepository.Verify(
                 place =>
-                    place.findByName(It.IsAny<string>()),
+                    place.FindByName(It.IsAny<string>()),
                 Times.Once());
         }
 
@@ -43,10 +43,10 @@ namespace BLL_TEST
         public void findByEmailIncorrectEmail()
         {
             User user = ServicesTestConstant.getAddreser();
-            userRepository.Setup(s => s.findByEmail(It.IsAny<string>())).Returns((User) null);
+            userRepository.Setup(s => s.FindByEmail(It.IsAny<string>())).Returns((User) null);
 
             var actualResult =
-                Assert.Throws<UsernameNotFoundException>(() => userService.findByName(user.UserName));
+                Assert.Throws<UsernameNotFoundException>(() => userService.FindByName(user.UserName));
 
             Assert.AreEqual(typeof(UsernameNotFoundException), actualResult.GetType());
         }
@@ -59,7 +59,7 @@ namespace BLL_TEST
             setIn.UserMoneyInCents = 0L;
             expected.UserMoneyInCents = 10L;
             long paymentSum = 10L;
-            userRepository.Setup(s => s.findByName(It.IsAny<string>()))
+            userRepository.Setup(s => s.FindByName(It.IsAny<string>()))
                 .Returns(setIn);
 
             User result = userService.ReplenishAccountBalance(expected.UserName, paymentSum);
@@ -76,7 +76,7 @@ namespace BLL_TEST
         [Test]
         public void replenishAccountBalanceNoSuchUser()
         {
-            userRepository.Setup(s => s.findByName(It.IsAny<string>()))
+            userRepository.Setup(s => s.FindByName(It.IsAny<string>()))
                 .Returns((User) null);
 
             var actualResult =
@@ -90,7 +90,7 @@ namespace BLL_TEST
         public void replenishAccountBalanceToMuchMoneyException()
         {
             User user = new User(null, null, long.MaxValue);
-            userRepository.Setup(s => s.findByName(It.IsAny<string>()))
+            userRepository.Setup(s => s.FindByName(It.IsAny<string>()))
                 .Returns(user);
 
             var actualResult =

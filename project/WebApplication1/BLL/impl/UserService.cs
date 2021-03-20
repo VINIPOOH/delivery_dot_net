@@ -17,9 +17,9 @@ namespace BLL.impl
             this._userRepository = userRepository;
         }
 
-        public User findByName(string email)
+        public User FindByName(string email)
         {
-            User byEmail = _userRepository.findByName(email);
+            User byEmail = _userRepository.FindByName(email);
             if (byEmail==null)
             {
                 throw new UsernameNotFoundException();
@@ -30,7 +30,7 @@ namespace BLL.impl
 
         public User ReplenishAccountBalance(string userName, long amountMoney)
         {
-            User user = _userRepository.findByName(userName);
+            User user = _userRepository.FindByName(userName);
             if (user == null)
             {
                 throw new NoSuchUserException();

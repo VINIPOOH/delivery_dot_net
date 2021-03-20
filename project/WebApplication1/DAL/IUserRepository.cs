@@ -7,10 +7,10 @@ namespace DAL
 {
     public interface IUserRepository: IGenericRepository<User>
     {
-        User findByEmail(String email);
+        User FindByEmail(String email);
 
-        User findByName(string userName);
+        User FindByName(string userName);
 
-        User findByIdAndUserMoneyInCentsGreaterThanEqual(string userName, long userMoneyInCents);
+        User FindByIdAndUserMoneyInCentsGreaterThanEqual(string userName, long userMoneyInCents);
     }
 }

@@ -5,8 +5,8 @@ namespace BLL.Intarfaces
 {
     public interface ILocalityService
     {
-        List<LocalityModel> getLocalities();
+        List<LocalityModel> GetLocalities();
 
-        List<LocalityModel> findGetLocalitiesByLocalitySetId(long id);
+        List<LocalityModel> FindGetLocalitiesByLocalitySetId(long id);
     }
 }

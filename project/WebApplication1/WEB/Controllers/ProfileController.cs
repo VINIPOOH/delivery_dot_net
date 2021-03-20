@@ -17,7 +17,7 @@ namespace WEB.Controllers
         [HttpGet]
         public IActionResult userProfile()
         {
-            ViewData.Add("userMoneyInCents",_userService.findByName(User.Identity.Name).UserMoneyInCents);
+            ViewData.Add("userMoneyInCents",_userService.FindByName(User.Identity.Name).UserMoneyInCents);
             return View();
         }
 
@@ -31,7 +31,7 @@ namespace WEB.Controllers
             try
             {
                 _userService.ReplenishAccountBalance(User.Identity.Name, money);
-                ViewData.Add("userMoneyInCents",_userService.findByName(User.Identity.Name).UserMoneyInCents);
+                ViewData.Add("userMoneyInCents",_userService.FindByName(User.Identity.Name).UserMoneyInCents);
             }
             catch (ToMuchMoneyException e)
             {

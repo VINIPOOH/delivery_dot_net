@@ -22,17 +22,17 @@ namespace WEB.Controllers
         [HttpGet]
         public IActionResult userDeliveryInitiation()
         {
-            ViewData.Add("localities", localityService.getLocalities());
+            ViewData.Add("localities", localityService.GetLocalities());
             return View();
         }
 
         [HttpPost]
         public IActionResult userDeliveryInitiationPost(DeliveryOrderCreateModel deliveryOrderCreateDto)
         {
-            ViewData.Add("localities", localityService.getLocalities());
+            ViewData.Add("localities", localityService.GetLocalities());
             try
             {
-                billService.initializeBill(deliveryOrderCreateDto, User.Identity.Name);
+                billService.InitializeBill(deliveryOrderCreateDto, User.Identity.Name);
             }
             catch (NoSuchWayException e)
             {

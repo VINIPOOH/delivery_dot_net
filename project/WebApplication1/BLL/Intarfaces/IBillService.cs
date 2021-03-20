@@ -6,13 +6,13 @@ namespace BLL.Intarfaces
 {
     public interface IBillService
     {
-        List<BillInfoToPayModel> getBillsToPayByUserName(string userName);
+        List<BillInfoToPayModel> GetBillsToPayByUserName(string userName);
 
-        bool payForDelivery(string userName, long billId);
+        bool PayForDelivery(string userName, long billId);
 
-        Bill initializeBill(DeliveryOrderCreateModel deliveryOrderCreateDto, string initiatorName);
+        Bill InitializeBill(DeliveryOrderCreateModel deliveryOrderCreateDto, string initiatorName);
 
-        List<BillModel> getBillHistoryByUserName(string userId);
+        List<BillModel> GetBillHistoryByUserName(string userId);
 
     }
 }

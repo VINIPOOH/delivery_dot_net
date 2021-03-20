@@ -23,7 +23,7 @@ namespace WEB.Controllers
         [Authorize]
         public IActionResult userNotGottenDelivers()
         {
-            ViewData.Add("DeliveryInfoToGetDtoList", _deliveryService.getDeliveryInfoToGet(User.Identity.Name));
+            ViewData.Add("DeliveryInfoToGetDtoList", _deliveryService.GetDeliveryInfoToGet(User.Identity.Name));
             return View();
         }
 
@@ -32,8 +32,8 @@ namespace WEB.Controllers
         [Authorize]
         public IActionResult userConfirmDeliveryPay(long deliveryId)
         {
-            _deliveryService.confirmGettingDelivery(User.Identity.Name, deliveryId);
-            ViewData.Add("DeliveryInfoToGetDtoList", _deliveryService.getDeliveryInfoToGet(User.Identity.Name));
+            _deliveryService.ConfirmGettingDelivery(User.Identity.Name, deliveryId);
+            ViewData.Add("DeliveryInfoToGetDtoList", _deliveryService.GetDeliveryInfoToGet(User.Identity.Name));
             return View("userNotGottenDelivers");
         }
     }

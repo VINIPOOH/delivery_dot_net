@@ -25,19 +25,19 @@ namespace BLL.impl
             this._wayRepository = wayRepository;
         }
 
-        public List<BillInfoToPayModel> getBillsToPayByUserName(string userName)
+        public List<BillInfoToPayModel> GetBillsToPayByUserName(string userName)
         {
-            return BillInfoToPayDtoMapper.mapToList(_billRepository.findAllByUserIdAndIsDeliveryPaidFalse(userName));
+            return BillInfoToPayDtoMapper.mapToList(_billRepository.FindAllByUserIdAndIsDeliveryPaidFalse(userName));
         }
 
-        public bool payForDelivery(string userName, long billId)
+        public bool PayForDelivery(string userName, long billId)
         {
-            Bill bill = _billRepository.findByIdAndIsDeliveryPaidFalse(billId);
+            Bill bill = _billRepository.FindByIdAndIsDeliveryPaidFalse(billId);
             if (bill == null)
             {
                 throw new DeliveryAlreadyPaidException();
             }
-            User user = _userRepository.findByIdAndUserMoneyInCentsGreaterThanEqual(userName, bill.CostInCents);
+            User user = _userRepository.FindByIdAndUserMoneyInCentsGreaterThanEqual(userName, bill.CostInCents);
             if (user == null)
             {
                 throw new NotEnoughMoneyException();
@@ -51,15 +51,15 @@ namespace BLL.impl
             return true;
         }
 
-        public Bill initializeBill(DeliveryOrderCreateModel deliveryOrderCreateDto, string initiatorName)
+        public Bill InitializeBill(DeliveryOrderCreateModel deliveryOrderCreateDto, string initiatorName)
         {
-            User addressee = _userRepository.findByEmail(deliveryOrderCreateDto.AddresseeEmail);
+            User addressee = _userRepository.FindByEmail(deliveryOrderCreateDto.AddresseeEmail);
             if (addressee == null)
             {
                 throw new NoSuchUserException();
             }
 
-            Way way = _wayRepository.findByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.LocalitySandId
+            Way way = _wayRepository.FindByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.LocalitySandId
                 , deliveryOrderCreateDto.LocalityGetId);
             if (way == null)
             {
@@ -68,7 +68,7 @@ namespace BLL.impl
 
             Delivery newDelivery = getBuildDelivery(deliveryOrderCreateDto, addressee, way);
             _deliveryRepository.Create(newDelivery);
-            User user = _userRepository.findByName(initiatorName);
+            User user = _userRepository.FindByName(initiatorName);
             if (user == null)
             {
                 throw new NoSuchUserException();
@@ -83,10 +83,10 @@ namespace BLL.impl
             return buildBill;
         }
 
-        public List<BillModel> getBillHistoryByUserName(string userName)
+        public List<BillModel> GetBillHistoryByUserName(string userName)
         {
             return BillToBillDtoMapper.mapToList(
-                _billRepository.findAllByUserNameAndIsDeliveryPaidTrue(userName));
+                _billRepository.FindAllByUserNameAndIsDeliveryPaidTrue(userName));
         }
 
         private Bill getBuildBill(Delivery newDelivery, long cost, User sender)

@@ -7,8 +7,9 @@ namespace DAL
 {
     public interface IDeliveryRepository:IGenericRepository<Delivery>
     {
-        IEnumerable<Delivery> findAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(string billUserId);
+        IEnumerable<Delivery> FindAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue
+            (string billUserId);
 
-        Delivery findByIdAndAddressee_IdAndIsPackageReceivedFalse(string userName, long deliveryId);
+        Delivery FindByIdAndAddressee_IdAndIsPackageReceivedFalse(string userName, long deliveryId);
     }
 }

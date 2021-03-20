@@ -7,8 +7,8 @@ namespace BLL.Intarfaces
 {
     public interface IUserService
     {
-        User findByName(String email);
-        User ReplenishAccountBalance(string userName, long amountMoney);
+        User FindByName(String email);
 
+        User ReplenishAccountBalance(string userName, long amountMoney);
     }
 }

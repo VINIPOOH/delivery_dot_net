@@ -23,13 +23,13 @@ namespace BLL_TEST
         }
         
         [Test]
-        public void getLocalities() {
+        public void GetLocalities() {
             Locality locality = ServicesTestConstant.getLocalityGet();
             List<Locality> localities = new List<Locality>{locality};
             LocalityModel localityDto = new LocalityModel(locality.LocalityId,locality.NameEn);
             localityRepository.Setup(s => s.Get(null,null)).Returns(localities);
 
-            List<LocalityModel> result = localityService.getLocalities();
+            List<LocalityModel> result = localityService.GetLocalities();
 
             localityRepository.Verify(
                 place =>

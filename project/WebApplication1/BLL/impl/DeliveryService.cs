@@ -21,16 +21,16 @@ namespace BLL.impl
         }
 
 
-        public List<DeliveryInfoToGetDto> getDeliveryInfoToGet(string userName)
+        public List<DeliveryInfoToGetDto> GetDeliveryInfoToGet(string userName)
         {
             return DeliveryToDeliveryInfoToGetDtoMapper.mapToList(_deliveryRepository
-                .findAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(userName));
+                .FindAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(userName));
         }
 
-        public bool confirmGettingDelivery(string userName, long deliveryId)
+        public bool ConfirmGettingDelivery(string userName, long deliveryId)
         {
             Delivery delivery =
-                _deliveryRepository.findByIdAndAddressee_IdAndIsPackageReceivedFalse(userName, deliveryId);
+                _deliveryRepository.FindByIdAndAddressee_IdAndIsPackageReceivedFalse(userName, deliveryId);
             if (delivery == null)
             {
                 throw new AskedDataIsNotExist();
@@ -41,7 +41,7 @@ namespace BLL.impl
             return true;
         }
 
-        public PriceAndTimeOnDeliveryModel getDeliveryCostAndTimeDto(DeliveryInfoRequestModel deliveryInfoRequestDto)
+        public PriceAndTimeOnDeliveryModel GetDeliveryCostAndTimeDto(DeliveryInfoRequestModel deliveryInfoRequestDto)
         {
             Way way = getWay(deliveryInfoRequestDto.LocalitySandId, deliveryInfoRequestDto.LocalityGetId);
             return new PriceAndTimeOnDeliveryModel(calculateDeliveryCost(deliveryInfoRequestDto.DeliveryWeight, way),
@@ -50,7 +50,7 @@ namespace BLL.impl
 
         private Way getWay(long localitySandId, long localityGetId)
         {
-            Way way = _wayRepository.findByLocalitySand_IdAndLocalityGet_Id(localitySandId
+            Way way = _wayRepository.FindByLocalitySand_IdAndLocalityGet_Id(localitySandId
                 , localityGetId);
             if (way == null)
             {

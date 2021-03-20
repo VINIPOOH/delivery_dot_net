@@ -9,10 +9,10 @@ namespace DAL
 {
     public interface IBillRepository:IGenericRepository<Bill>
     {
-        IEnumerable<Bill> findAllByUserIdAndIsDeliveryPaidFalse(string userId);
+        IEnumerable<Bill> FindAllByUserIdAndIsDeliveryPaidFalse(string userId);
 
-        IEnumerable<Bill> findAllByUserNameAndIsDeliveryPaidTrue(string userId);
+        IEnumerable<Bill> FindAllByUserNameAndIsDeliveryPaidTrue(string userId);    
 
-        Bill findByIdAndIsDeliveryPaidFalse(long billId);
+        Bill FindByIdAndIsDeliveryPaidFalse(long billId);
     }
 }

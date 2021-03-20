@@ -13,7 +13,7 @@ namespace DAL.impl
         {
         }
 
-        public IEnumerable<Delivery> findAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(
+        public IEnumerable<Delivery> FindAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(
             string billUserId)
         {
             return Context.Deliveries.Include(u => u.Addressee).Include(b => b.Bill).ThenInclude(u => u.User)
@@ -23,7 +23,7 @@ namespace DAL.impl
                     delivery.Bill.IsDeliveryPaid);
         }
 
-        public Delivery findByIdAndAddressee_IdAndIsPackageReceivedFalse(string userName, long deliveryId)
+        public Delivery FindByIdAndAddressee_IdAndIsPackageReceivedFalse(string userName, long deliveryId)
         {
             return base.Get(delivery =>
                 delivery.DeliveryId.Equals(deliveryId) && delivery.Addressee.UserName.Equals(userName) &&

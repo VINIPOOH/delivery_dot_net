@@ -15,14 +15,14 @@ namespace BLL.impl
             this._localityRepository = localityRepository;
         }
 
-        public List<LocalityModel> getLocalities()
+        public List<LocalityModel> GetLocalities()
         {
             return LocalityToLocalityModelMapper.mapToList(_localityRepository.Get());
         }
 
-        public List<LocalityModel> findGetLocalitiesByLocalitySetId(long id)
+        public List<LocalityModel> FindGetLocalitiesByLocalitySetId(long id)
         {
-            return LocalityToLocalityModelMapper.mapToList(_localityRepository.findGetLocalitiesByLocalitySandId(id));
+            return LocalityToLocalityModelMapper.mapToList(_localityRepository.FindGetLocalitiesByLocalitySandId(id));
         }
     }
 }

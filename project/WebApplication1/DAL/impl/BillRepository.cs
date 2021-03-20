@@ -14,7 +14,7 @@ namespace DAL.impl
         {
         }
 
-        public IEnumerable<Bill> findAllByUserIdAndIsDeliveryPaidFalse(string userId)
+        public IEnumerable<Bill> FindAllByUserIdAndIsDeliveryPaidFalse(string userId)
         {
             return Context.Bills.Include(u => u.User).Include(d => d.Delivery).ThenInclude(w => w.Way)
                 .ThenInclude(l => l.LocalitySand).Include(d => d.Delivery).ThenInclude(w => w.Way)
@@ -22,12 +22,12 @@ namespace DAL.impl
                 .Where(bill => bill.User.UserName.Equals(userId) && !bill.IsDeliveryPaid);
         }
 
-        public IEnumerable<Bill> findAllByUserNameAndIsDeliveryPaidTrue(string userName)
+        public IEnumerable<Bill> FindAllByUserNameAndIsDeliveryPaidTrue(string userName)
         {
             return base.Get(bill => bill.User.UserName.Equals(userName) && bill.IsDeliveryPaid);
         }
 
-        public Bill findByIdAndIsDeliveryPaidFalse(long billId)
+        public Bill FindByIdAndIsDeliveryPaidFalse(long billId)
         {
             return base.Get(bill => bill.BillId.Equals(billId) && !bill.IsDeliveryPaid).FirstOrDefault();
         }

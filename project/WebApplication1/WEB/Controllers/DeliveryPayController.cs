@@ -19,22 +19,22 @@ namespace WEB.Controllers
         public IActionResult userConfirmDelivers()
         {
             ViewData.Add("BillInfoToPayDtoList",
-                billService.getBillsToPayByUserName(User.Identity.Name));
+                billService.GetBillsToPayByUserName(User.Identity.Name));
             return View();
         }
 
         [HttpPost]
-        public IActionResult payForDelivery(long billId) {
+        public IActionResult PayForDelivery(long billId) {
             try
             {
-                billService.payForDelivery(User.Identity.Name, billId);
+                billService.PayForDelivery(User.Identity.Name, billId);
             }
             catch (NotEnoughMoneyException e)
             {
                 ViewData.Add("notEnoughMoneyException", true);
             }
             ViewData.Add("BillInfoToPayDtoList",
-                billService.getBillsToPayByUserName(User.Identity.Name));
+                billService.GetBillsToPayByUserName(User.Identity.Name));
             return View("userConfirmDelivers");
         }
     }

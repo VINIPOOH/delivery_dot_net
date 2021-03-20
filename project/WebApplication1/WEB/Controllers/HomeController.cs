@@ -22,7 +22,7 @@ namespace WEB.Controllers
         [HttpGet]
         public IActionResult Home()
         {
-            ViewData.Add("localities", localityService.getLocalities());
+            ViewData.Add("localities", localityService.GetLocalities());
             return View("Home",new DeliveryInfoRequestModel());
         }
 
@@ -33,9 +33,9 @@ namespace WEB.Controllers
         {
             try
             {
-                ViewData.Add("localities", localityService.getLocalities());
+                ViewData.Add("localities", localityService.GetLocalities());
                 ViewData.Add("priceAndTimeOnDeliveryModel",
-                    deliveryService.getDeliveryCostAndTimeDto(deliveryInfoRequestDto));
+                    deliveryService.GetDeliveryCostAndTimeDto(deliveryInfoRequestDto));
             }
             catch (NoSuchWayException e)
             {

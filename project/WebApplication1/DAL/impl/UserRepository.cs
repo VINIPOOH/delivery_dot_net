@@ -11,17 +11,17 @@ namespace DAL.impl
         {
         }
 
-        public User findByEmail(string email)
+        public User FindByEmail(string email)
         {
             return base.Get(user => user.Email.Equals(email)).FirstOrDefault();
         }
         
-        public User findByName(string userName)
+        public User FindByName(string userName)
         {
             return base.Get(user => user.UserName.Equals(userName)).FirstOrDefault();
         }
 
-        public User findByIdAndUserMoneyInCentsGreaterThanEqual(string userName, long userMoneyInCents)
+        public User FindByIdAndUserMoneyInCentsGreaterThanEqual(string userName, long userMoneyInCents)
         {
             return base.Get(user => user.UserName.Equals(userName) && user.UserMoneyInCents>=userMoneyInCents)
                 .FirstOrDefault();

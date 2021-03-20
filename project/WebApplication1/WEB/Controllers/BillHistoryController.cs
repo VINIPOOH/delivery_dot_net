@@ -15,7 +15,7 @@ namespace WEB.Controllers
 
         [HttpGet]
         public IActionResult userStatistic() {
-            ViewData.Add("BillDtoPage", billService.getBillHistoryByUserName(User.Identity.Name));
+            ViewData.Add("BillDtoPage", billService.GetBillHistoryByUserName(User.Identity.Name));
             return View();
         }
     }

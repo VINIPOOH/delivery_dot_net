@@ -6,6 +6,6 @@ namespace DAL
 {
     public interface ILocalityRepository:IGenericRepository<Locality>
     {
-        IEnumerable<Locality> findGetLocalitiesByLocalitySandId(long idToSearch);
+        IEnumerable<Locality> FindGetLocalitiesByLocalitySandId(long idToSearch);
     }
 }

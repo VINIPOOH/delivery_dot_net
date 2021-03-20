@@ -11,7 +11,7 @@ namespace WEB.Controllers
 
         public ProfileController(IUserService userService)
         {
-            this._userService = userService;
+            _userService = userService;
         }
 
         [HttpGet]

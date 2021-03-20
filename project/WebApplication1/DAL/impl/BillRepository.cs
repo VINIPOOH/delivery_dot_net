@@ -16,8 +16,10 @@ namespace DAL.impl
 
         public IEnumerable<Bill> FindAllByUserIdAndIsDeliveryPaidFalse(string userId)
         {
-            return Context.Bills.Include(u => u.User).Include(d => d.Delivery).ThenInclude(w => w.Way)
-                .ThenInclude(l => l.LocalitySand).Include(d => d.Delivery).ThenInclude(w => w.Way)
+            return Context.Bills.Include(u => u.User)
+                .Include(d => d.Delivery).ThenInclude(w => w.Way)
+                .ThenInclude(l => l.LocalitySand).Include(d => d.Delivery)
+                .ThenInclude(w => w.Way)
                 .ThenInclude(l => l.LocalityGet)
                 .Where(bill => bill.User.UserName.Equals(userId) && !bill.IsDeliveryPaid);
         }

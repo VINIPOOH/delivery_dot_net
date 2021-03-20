@@ -7,7 +7,7 @@ namespace DAL
 {
     public interface IUserRepository: IGenericRepository<User>
     {
-        User FindByEmail(String email);
+        User FindByEmail(string email);
 
         User FindByName(string userName);
 

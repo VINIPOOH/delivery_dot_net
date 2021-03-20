@@ -10,7 +10,7 @@ namespace BLL.dto
 
         public DeliveryInfoRequestModel(int deliveryWeight, long localitySandId, long localityGetId)
         {
-            this.DeliveryWeight = deliveryWeight;
+            DeliveryWeight = deliveryWeight;
             LocalitySandId = localitySandId;
             LocalityGetId = localityGetId;
         }

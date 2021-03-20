@@ -16,9 +16,10 @@ namespace DAL.impl
 
         public Way FindByLocalitySand_IdAndLocalityGet_Id(long localitySandID, long localityGetID)
         {
-            return Context.Ways.Include(p => p.WayToTariffWeightFactors).ThenInclude(factor =>
-                factor.TariffWeightFactor).FirstOrDefault(way => way.LocalitySandLocalityId.Equals(localitySandID) &&
-                                                                 way.LocalityGetLocalityId.Equals(localityGetID));
+            return Context.Ways.Include(p => p.WayToTariffWeightFactors)
+                .ThenInclude(factor =>factor.TariffWeightFactor).
+                FirstOrDefault(way => way.LocalitySandLocalityId.Equals(localitySandID) &&
+                                      way.LocalityGetLocalityId.Equals(localityGetID));
         }
     }
 }

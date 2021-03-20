@@ -12,7 +12,7 @@ namespace BLL.impl
 
         public LocalityService(ILocalityRepository localityRepository)
         {
-            this._localityRepository = localityRepository;
+            _localityRepository = localityRepository;
         }
 
         public List<LocalityModel> GetLocalities()
@@ -22,7 +22,8 @@ namespace BLL.impl
 
         public List<LocalityModel> FindGetLocalitiesByLocalitySetId(long id)
         {
-            return LocalityToLocalityModelMapper.mapToList(_localityRepository.FindGetLocalitiesByLocalitySandId(id));
+            return LocalityToLocalityModelMapper.mapToList
+                (_localityRepository.FindGetLocalitiesByLocalitySandId(id));
         }
     }
 }

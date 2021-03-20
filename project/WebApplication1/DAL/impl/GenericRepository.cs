@@ -16,8 +16,8 @@ using System.Linq.Expressions;
 
         public GenericRepository(MyDbContext context)
         {            
-            this.Context = context;
-            this.DbSet = context.Set<TEntity>();
+            Context = context;
+            DbSet = context.Set<TEntity>();
         }
 
         public virtual void Create(TEntity entity)

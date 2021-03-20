@@ -19,10 +19,10 @@ namespace BLL.impl
         public BillService(IBillRepository billRepository, IUserRepository userRepository,
             IDeliveryRepository deliveryRepository, IWayRepository wayRepository)
         {
-            this._billRepository = billRepository;
-            this._userRepository = userRepository;
-            this._deliveryRepository = deliveryRepository;
-            this._wayRepository = wayRepository;
+            _billRepository = billRepository;
+            _userRepository = userRepository;
+            _deliveryRepository = deliveryRepository;
+            _wayRepository = wayRepository;
         }
 
         public List<BillInfoToPayModel> GetBillsToPayByUserName(string userName)
@@ -58,14 +58,12 @@ namespace BLL.impl
             {
                 throw new NoSuchUserException();
             }
-
             Way way = _wayRepository.FindByLocalitySand_IdAndLocalityGet_Id(deliveryOrderCreateDto.LocalitySandId
                 , deliveryOrderCreateDto.LocalityGetId);
             if (way == null)
             {
                 throw new NoSuchWayException();
             }
-
             Delivery newDelivery = getBuildDelivery(deliveryOrderCreateDto, addressee, way);
             _deliveryRepository.Create(newDelivery);
             User user = _userRepository.FindByName(initiatorName);
@@ -73,7 +71,6 @@ namespace BLL.impl
             {
                 throw new NoSuchUserException();
             }
-
             Bill buildBill = getBuildBill(newDelivery
                 , calculateDeliveryCost(deliveryOrderCreateDto.DeliveryWeight, way)
                 , user);

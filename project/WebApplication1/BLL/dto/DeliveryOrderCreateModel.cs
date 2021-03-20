@@ -26,6 +26,6 @@ namespace BLL.dto
         public long LocalityGetId{ get; set; }
         [Required(ErrorMessage = "Must be not empty")]
         [EmailAddress]
-        public String AddresseeEmail{ get; set; }
+        public string AddresseeEmail{ get; set; }
     }
 }

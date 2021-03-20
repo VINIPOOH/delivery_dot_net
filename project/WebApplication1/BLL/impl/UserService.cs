@@ -14,7 +14,7 @@ namespace BLL.impl
 
         public UserService(IUserRepository userRepository)
         {
-            this._userRepository = userRepository;
+            _userRepository = userRepository;
         }
 
         public User FindByName(string email)

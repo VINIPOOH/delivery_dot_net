@@ -14,18 +14,16 @@ namespace BLL_TEST
 {
     public class DeliveryServiceTest
     {
-        DeliveryService deliveryService;
-
-        private Mock<IWayRepository> wayRepository;
-
-        private Mock<IDeliveryRepository> deliveryRepository;
-
+        private DeliveryService _deliveryService;
+        private Mock<IWayRepository> _wayRepository;
+        private Mock<IDeliveryRepository> _deliveryRepository;
+        
         [SetUp]
         public void SetupBeforeEachTest()
         {
-            wayRepository = new Mock<IWayRepository>();
-            deliveryRepository = new Mock<IDeliveryRepository>();
-            deliveryService = new DeliveryService(wayRepository.Object, deliveryRepository.Object);
+            _wayRepository = new Mock<IWayRepository>();
+            _deliveryRepository = new Mock<IDeliveryRepository>();
+            _deliveryService = new DeliveryService(_wayRepository.Object, _deliveryRepository.Object);
         }
 
 
@@ -39,12 +37,12 @@ namespace BLL_TEST
             deliveryInfoToGetDto.LocalityGetName = delivery.Way.LocalityGet.NameEn;
             deliveryInfoToGetDto.LocalitySandName = delivery.Way.LocalitySand.NameEn;
 
-            deliveryRepository.Setup(s => s.FindAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(
+            _deliveryRepository.Setup(s => s.FindAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(
                 ServicesTestConstant.getUserId())).Returns(new List<Delivery>{delivery});
 
-            List<DeliveryInfoToGetDto> result = deliveryService.GetDeliveryInfoToGet(ServicesTestConstant.getUserId());
+            List<DeliveryInfoToGetDto> result = _deliveryService.GetDeliveryInfoToGet(ServicesTestConstant.getUserId());
 
-            deliveryRepository.Verify(
+            _deliveryRepository.Verify(
                 place =>
                     place.FindAllByAddressee_IdAndIsPackageReceivedFalseAndBill_IsDeliveryPaidTrue(It.IsAny<string>()),
                 Times.Once());
@@ -57,18 +55,18 @@ namespace BLL_TEST
         public void confirmGettingDeliveryAllCorrect()
         {
             Delivery delivery = ServicesTestConstant.getDelivery();
-            deliveryRepository.Setup(s => s.FindByIdAndAddressee_IdAndIsPackageReceivedFalse(
+            _deliveryRepository.Setup(s => s.FindByIdAndAddressee_IdAndIsPackageReceivedFalse(
                     ServicesTestConstant.getUserId(), ServicesTestConstant.getDeliveryId()))
                 .Returns(delivery);
 
-            bool result = deliveryService.ConfirmGettingDelivery(ServicesTestConstant.getUserId(),
+            bool result = _deliveryService.ConfirmGettingDelivery(ServicesTestConstant.getUserId(),
                 ServicesTestConstant.getDeliveryId());
 
-            deliveryRepository.Verify(
+            _deliveryRepository.Verify(
                 place =>
-                    place.FindByIdAndAddressee_IdAndIsPackageReceivedFalse(It.IsAny<string>(), It.IsAny<long>()),
-                Times.Once());
-            deliveryRepository.Verify(
+                    place.FindByIdAndAddressee_IdAndIsPackageReceivedFalse
+                        (It.IsAny<string>(), It.IsAny<long>()), Times.Once());
+            _deliveryRepository.Verify(
                 place =>
                     place.Save(),
                 Times.Once());
@@ -80,11 +78,11 @@ namespace BLL_TEST
         [Test]
         public void confirmGettingDeliveryIsNoExistDelivery()
         {
-            deliveryRepository.Setup(s => s.FindByIdAndAddressee_IdAndIsPackageReceivedFalse(
+            _deliveryRepository.Setup(s => s.FindByIdAndAddressee_IdAndIsPackageReceivedFalse(
                     ServicesTestConstant.getUserId(), ServicesTestConstant.getDeliveryId()))
                 .Returns((Delivery) null);
             var actualResult =
-                Assert.Throws<AskedDataIsNotExist>(() => deliveryService.ConfirmGettingDelivery(
+                Assert.Throws<AskedDataIsNotExist>(() => _deliveryService.ConfirmGettingDelivery(
                     ServicesTestConstant.getUserId(),
                     ServicesTestConstant.getDeliveryId()));
             Assert.AreEqual(typeof(AskedDataIsNotExist), actualResult.GetType());
@@ -97,11 +95,11 @@ namespace BLL_TEST
             PriceAndTimeOnDeliveryModel priceAndTimeOnDeliveryDto = getPriceAndTimeOnDeliveryDto();
             Delivery delivery = ServicesTestConstant.getDelivery();
             Way way = delivery.Way;
-            wayRepository.Setup(s => s.FindByLocalitySand_IdAndLocalityGet_Id
+            _wayRepository.Setup(s => s.FindByLocalitySand_IdAndLocalityGet_Id
                 (It.IsAny<long>(), It.IsAny<long>())).Returns(way);
 
-            PriceAndTimeOnDeliveryModel result = deliveryService.GetDeliveryCostAndTimeDto(deliveryInfoRequestDto);
-            wayRepository.Verify(
+            PriceAndTimeOnDeliveryModel result = _deliveryService.GetDeliveryCostAndTimeDto(deliveryInfoRequestDto);
+            _wayRepository.Verify(
                 s => s.FindByLocalitySand_IdAndLocalityGet_Id
                     (It.IsAny<long>(), It.IsAny<long>()), Times.Once());
             Assert.AreEqual(priceAndTimeOnDeliveryDto, result);
@@ -112,12 +110,12 @@ namespace BLL_TEST
         {
             DeliveryInfoRequestModel deliveryInfoRequestDto = getDeliveryInfoRequestDto(1);
             PriceAndTimeOnDeliveryModel priceAndTimeOnDeliveryDto = getPriceAndTimeOnDeliveryDto();
-            wayRepository.Setup(s => s.FindByLocalitySand_IdAndLocalityGet_Id
+            _wayRepository.Setup(s => s.FindByLocalitySand_IdAndLocalityGet_Id
                 (It.IsAny<long>(), It.IsAny<long>())).Returns((Way) null);
 
             var actualResult =
                 Assert.Throws<NoSuchWayException>(() =>
-                    deliveryService.GetDeliveryCostAndTimeDto(deliveryInfoRequestDto));
+                    _deliveryService.GetDeliveryCostAndTimeDto(deliveryInfoRequestDto));
             Assert.AreEqual(typeof(NoSuchWayException), actualResult.GetType());
         }
 
@@ -130,12 +128,12 @@ namespace BLL_TEST
             Delivery delivery = ServicesTestConstant.getDelivery();
             Way way = delivery.Way;
             way.WayToTariffWeightFactors[0].TariffWeightFactor.MaxWeightRange = weightRangeMax;
-            wayRepository.Setup(s => s.FindByLocalitySand_IdAndLocalityGet_Id
+            _wayRepository.Setup(s => s.FindByLocalitySand_IdAndLocalityGet_Id
                 (It.IsAny<long>(), It.IsAny<long>())).Returns(way);
             
             var actualResult =
                 Assert.Throws<UnsupportableWeightFactorException>(() =>
-                    deliveryService.GetDeliveryCostAndTimeDto(deliveryInfoRequestDto));
+                    _deliveryService.GetDeliveryCostAndTimeDto(deliveryInfoRequestDto));
             Assert.AreEqual(typeof(UnsupportableWeightFactorException), actualResult.GetType());
         }
         

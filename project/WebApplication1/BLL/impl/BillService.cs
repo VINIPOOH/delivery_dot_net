@@ -13,8 +13,8 @@ namespace BLL.impl
     {
         private readonly IBillRepository _billRepository;
         private readonly IUserRepository _userRepository;
-        private IDeliveryRepository _deliveryRepository;
-        private IWayRepository _wayRepository;
+        private readonly IDeliveryRepository _deliveryRepository;
+        private readonly IWayRepository _wayRepository;
 
         public BillService(IBillRepository billRepository, IUserRepository userRepository,
             IDeliveryRepository deliveryRepository, IWayRepository wayRepository)

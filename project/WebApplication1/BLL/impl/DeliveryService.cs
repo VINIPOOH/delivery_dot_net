@@ -11,8 +11,8 @@ namespace BLL.impl
 {
     public class DeliveryService : IDeliveryService
     {
-        private IWayRepository _wayRepository;
-        private IDeliveryRepository _deliveryRepository;
+        private readonly IWayRepository _wayRepository;
+        private readonly IDeliveryRepository _deliveryRepository;
 
         public DeliveryService(IWayRepository wayRepository, IDeliveryRepository deliveryRepository)
         {

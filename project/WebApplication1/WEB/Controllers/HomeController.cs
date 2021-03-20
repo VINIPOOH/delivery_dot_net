@@ -10,19 +10,19 @@ namespace WEB.Controllers
 {
     public class HomeController : Controller
     {
-        private IDeliveryService deliveryService;
-        private ILocalityService localityService;
+        private readonly IDeliveryService _deliveryService;
+        private readonly ILocalityService _localityService;
 
         public HomeController(IDeliveryService deliveryService, ILocalityService localityService)
         {
-            this.deliveryService = deliveryService;
-            this.localityService = localityService;
+            this._deliveryService = deliveryService;
+            this._localityService = localityService;
         }
 
         [HttpGet]
         public IActionResult Home()
         {
-            ViewData.Add("localities", localityService.GetLocalities());
+            ViewData.Add("localities", _localityService.GetLocalities());
             return View("Home",new DeliveryInfoRequestModel());
         }
 
@@ -33,9 +33,9 @@ namespace WEB.Controllers
         {
             try
             {
-                ViewData.Add("localities", localityService.GetLocalities());
+                ViewData.Add("localities", _localityService.GetLocalities());
                 ViewData.Add("priceAndTimeOnDeliveryModel",
-                    deliveryService.GetDeliveryCostAndTimeDto(deliveryInfoRequestDto));
+                    _deliveryService.GetDeliveryCostAndTimeDto(deliveryInfoRequestDto));
             }
             catch (NoSuchWayException e)
             {

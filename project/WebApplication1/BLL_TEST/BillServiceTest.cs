@@ -13,68 +13,76 @@ namespace BLL_TEST
 {
     public class BillServiceTest
     {
-        private BillService billService;
-
-        private Mock<IBillRepository> billRepository;
-
-        private Mock<IUserRepository> userRepository;
-
-        private Mock<IDeliveryRepository> deliveryRepository;
-
-        private Mock<IWayRepository> wayRepository;
+        private BillService _billService;
+        private Mock<IBillRepository> _billRepository;
+        private Mock<IUserRepository> _userRepository;
+        private Mock<IDeliveryRepository> _deliveryRepository;
+        private Mock<IWayRepository> _wayRepository;
+        private int _defaultCostInCents = 2;
+        private long _defaultBillId = 0;
+        private long _defaultDeliveryId = 0;
 
         [SetUp]
         public void SetupBeforeEachTest()
         {
-            billRepository = new Mock<IBillRepository>();
-            userRepository=new Mock<IUserRepository>();
-            deliveryRepository=new Mock<IDeliveryRepository>();
-            wayRepository=new Mock<IWayRepository>();
+            _billRepository = new Mock<IBillRepository>();
+            _userRepository=new Mock<IUserRepository>();
+            _deliveryRepository=new Mock<IDeliveryRepository>();
+            _wayRepository=new Mock<IWayRepository>();
 
-            billRepository.Setup(a => a.FindByIdAndIsDeliveryPaidFalse(ServicesTestConstant.getBillId())).Returns(ServicesTestConstant.getBill());
-            billRepository.Setup(a => a.FindAllByUserIdAndIsDeliveryPaidFalse(It.IsAny<string>())).Returns(ServicesTestConstant.getBills());
+            _billRepository.Setup(a => a.FindByIdAndIsDeliveryPaidFalse(ServicesTestConstant.getBillId()))
+                .Returns(ServicesTestConstant.getBill());
+            _billRepository.Setup(a => a.FindAllByUserIdAndIsDeliveryPaidFalse(It.IsAny<string>()))
+                .Returns(ServicesTestConstant.getBills());
 
-            userRepository.Setup(a => a.FindByIdAndUserMoneyInCentsGreaterThanEqual(ServicesTestConstant.getUserId(),ServicesTestConstant.getBill().CostInCents)
+            _userRepository.Setup(a => a.FindByIdAndUserMoneyInCentsGreaterThanEqual
+                (ServicesTestConstant.getUserId(),ServicesTestConstant.getBill().CostInCents)
                 ).Returns(ServicesTestConstant.getAddreser());
 
-            userRepository.Setup(a => a.FindByEmail(It.IsAny<string>())
+            _userRepository.Setup(a => a.FindByEmail(It.IsAny<string>())
             ).Returns(ServicesTestConstant.getAdversee());
-            userRepository.Setup(a => a.FindByName(It.IsAny<string>())
+            _userRepository.Setup(a => a.FindByName(It.IsAny<string>())
             ).Returns(ServicesTestConstant.getAdversee());
             
-            wayRepository.Setup(a => a.FindByLocalitySand_IdAndLocalityGet_Id(It.IsAny<long>(), It.IsAny<long>())
+            _wayRepository.Setup(a => a.FindByLocalitySand_IdAndLocalityGet_Id
+                (It.IsAny<long>(), It.IsAny<long>())
             ).Returns(ServicesTestConstant.getWay());
-            billService = new BillService(billRepository.Object, userRepository.Object,deliveryRepository.Object,wayRepository.Object);
+            _billService = new BillService
+                (_billRepository.Object, _userRepository.Object,_deliveryRepository.Object,_wayRepository.Object);
         }
 
         [Test]
         public void initializeBillCorrect(){
             Bill bill = ServicesTestConstant.getBill();
-            bill.CostInCents=2;
-            bill.BillId=0;
+            bill.CostInCents=_defaultCostInCents;
+            bill.BillId=_defaultBillId;
             bill.IsDeliveryPaid = false;
             Delivery delivery = ServicesTestConstant.getDelivery();
-            delivery.DeliveryId  = 0;
-            wayRepository.Setup(a => a.FindByLocalitySand_IdAndLocalityGet_Id(It.IsAny<long>(), It.IsAny<long>())
+            delivery.DeliveryId  = _defaultDeliveryId;
+            _wayRepository.Setup(a => a.FindByLocalitySand_IdAndLocalityGet_Id
+                (It.IsAny<long>(), It.IsAny<long>())
             ).Returns(ServicesTestConstant.getWay());
 
-            Bill billResult = billService.InitializeBill(ServicesTestConstant.getDeliveryOrderCreateDto(), ServicesTestConstant.getUserId());
+            Bill billResult = _billService.InitializeBill(ServicesTestConstant.getDeliveryOrderCreateDto(),
+                ServicesTestConstant.getUserId());
 
             Assert.AreEqual(bill, billResult);
         }
+        
         [Test]
         public void initializeBillCorrectInCorrectAddressee(){
             Bill bill = ServicesTestConstant.getBill();
-            bill.CostInCents=2;
-            bill.BillId=0;
+            bill.CostInCents=_defaultCostInCents;
+            bill.BillId=_defaultBillId;
             bill.IsDeliveryPaid = false;
             Delivery delivery = ServicesTestConstant.getDelivery();
-            delivery.DeliveryId  = 0;
-            userRepository.Setup(a => a.FindByEmail(It.IsAny<string>())
+            delivery.DeliveryId  = _defaultDeliveryId;
+            _userRepository.Setup(a => a.FindByEmail(It.IsAny<string>())
             ).Returns(null as User);
 
             var actualResult =
-                Assert.Throws<NoSuchUserException>(() => billService.InitializeBill(ServicesTestConstant.getDeliveryOrderCreateDto(), ServicesTestConstant.getUserId()));
+                Assert.Throws<NoSuchUserException>(() => _billService.InitializeBill
+                    (ServicesTestConstant.getDeliveryOrderCreateDto(), ServicesTestConstant.getUserId()));
 
             Assert.AreEqual(typeof(NoSuchUserException), actualResult.GetType());
         }
@@ -82,44 +90,47 @@ namespace BLL_TEST
         [Test]
         public void initializeBillIncorrectInWay(){
             Bill bill = ServicesTestConstant.getBill();
-            bill.CostInCents=2;
-            bill.BillId=0;
+            bill.CostInCents=_defaultCostInCents;
+            bill.BillId=_defaultBillId;
             bill.IsDeliveryPaid = false;
             Delivery delivery = ServicesTestConstant.getDelivery();
-            delivery.DeliveryId  = 0;
+            delivery.DeliveryId  = _defaultDeliveryId;
             
-            wayRepository.Setup(a => a.FindByLocalitySand_IdAndLocalityGet_Id(It.IsAny<long>(), It.IsAny<long>())
+            _wayRepository.Setup(a => a.FindByLocalitySand_IdAndLocalityGet_Id
+                (It.IsAny<long>(), It.IsAny<long>())
             ).Returns((Way) null);
 
             var actualResult =
-                Assert.Throws<NoSuchWayException>(()=>billService.InitializeBill(ServicesTestConstant.getDeliveryOrderCreateDto(), ServicesTestConstant.getUserId()));
+                Assert.Throws<NoSuchWayException>(()=>_billService.InitializeBill
+                    (ServicesTestConstant.getDeliveryOrderCreateDto(), ServicesTestConstant.getUserId()));
 
             Assert.AreEqual(typeof(NoSuchWayException), actualResult.GetType());
         }
 
         [Test]
-        public void getBillsToPayByUserID()
+        public void getBillsToPayByUserId()
         {
             BillInfoToPayModel billInfoToPayDto = ServicesTestConstant.getBillInfoToPayDto();
             Bill bill = ServicesTestConstant.getBill();
             billInfoToPayDto.LocalityGetName = bill.Delivery.Way.LocalityGet.NameEn;
             billInfoToPayDto.LocalitySandName = bill.Delivery.Way.LocalitySand.NameEn;
 
-            List<BillInfoToPayModel> result = billService.GetBillsToPayByUserName(ServicesTestConstant.getUserId());
+            List<BillInfoToPayModel> result = _billService.GetBillsToPayByUserName(ServicesTestConstant.getUserId());
 
-            billRepository.Verify(place => place.FindAllByUserIdAndIsDeliveryPaidFalse(ServicesTestConstant.getUserId()), Times.Once());
+            _billRepository.Verify(place => place.FindAllByUserIdAndIsDeliveryPaidFalse
+                (ServicesTestConstant.getUserId()), Times.Once());
             Assert.AreEqual(ServicesTestConstant.getBills().Count, result.Count);
             Assert.AreEqual(billInfoToPayDto, result[0]);
         }
 
         [Test]
-        public void getBillsToPayByUserIDUserIsNotExist()
+        public void getBillsToPayByUserIdUserIsNotExist()
         {
-            billRepository.Setup(a => a.FindAllByUserIdAndIsDeliveryPaidFalse(It.IsAny<string>())).Returns(new List<Bill>());
+            _billRepository.Setup(a => a.FindAllByUserIdAndIsDeliveryPaidFalse(It.IsAny<string>())).Returns(new List<Bill>());
 
-            List<BillInfoToPayModel> billInfoToPayDtos = billService.GetBillsToPayByUserName(ServicesTestConstant.getUserId());
+            List<BillInfoToPayModel> billInfoToPayDtos = _billService.GetBillsToPayByUserName(ServicesTestConstant.getUserId());
 
-            billRepository.Verify(place => place.FindAllByUserIdAndIsDeliveryPaidFalse(It.IsAny<string>()), Times.Once());
+            _billRepository.Verify(place => place.FindAllByUserIdAndIsDeliveryPaidFalse(It.IsAny<string>()), Times.Once());
             Assert.AreEqual(0, billInfoToPayDtos.Count);
         }
 
@@ -127,12 +138,14 @@ namespace BLL_TEST
         public void payForDeliveryWhenAllCorrect(){
             Bill bill = ServicesTestConstant.getBill();
             bill.IsDeliveryPaid = false;
-            billRepository.Setup(a => a.FindByIdAndIsDeliveryPaidFalse(ServicesTestConstant.getBillId())).Returns(bill);
+            _billRepository.Setup(a => a.FindByIdAndIsDeliveryPaidFalse(ServicesTestConstant.getBillId())).Returns(bill);
             
-            bool payResult = billService.PayForDelivery( ServicesTestConstant.getUserId(),  ServicesTestConstant.getBillId());
+            bool payResult = _billService.PayForDelivery( ServicesTestConstant.getUserId(),  ServicesTestConstant.getBillId());
 
-            billRepository.Verify(place => place.FindByIdAndIsDeliveryPaidFalse(ServicesTestConstant.getBillId()), Times.Once());
-            userRepository.Verify(place => place.FindByIdAndUserMoneyInCentsGreaterThanEqual(ServicesTestConstant.getUserId(), bill.CostInCents), Times.Once());
+            _billRepository.Verify
+                (place => place.FindByIdAndIsDeliveryPaidFalse(ServicesTestConstant.getBillId()), Times.Once());
+            _userRepository.Verify(place => place.FindByIdAndUserMoneyInCentsGreaterThanEqual
+                (ServicesTestConstant.getUserId(), bill.CostInCents), Times.Once());
 
             Assert.IsTrue(payResult);
             Assert.IsTrue(bill.IsDeliveryPaid);
@@ -144,21 +157,25 @@ namespace BLL_TEST
             bill.IsDeliveryPaid=false;
             User adverser = ServicesTestConstant.getAddreser();
             adverser.UserMoneyInCents = 0L;
-            userRepository.Setup(a => a.FindByIdAndUserMoneyInCentsGreaterThanEqual(ServicesTestConstant.getUserId(),ServicesTestConstant.getBill().CostInCents)
+            _userRepository.Setup(a => a.FindByIdAndUserMoneyInCentsGreaterThanEqual
+                (ServicesTestConstant.getUserId(),ServicesTestConstant.getBill().CostInCents)
             ).Returns((User) null);
 
             var actualResult =
-                Assert.Throws<NotEnoughMoneyException>(()=>billService.PayForDelivery(ServicesTestConstant.getUserId(), ServicesTestConstant.getBillId()));
+                Assert.Throws<NotEnoughMoneyException>
+                    (()=>_billService.PayForDelivery(ServicesTestConstant.getUserId(), ServicesTestConstant.getBillId()));
 
             Assert.AreEqual(typeof(NotEnoughMoneyException), actualResult.GetType());
         }
 
         [Test]
         public void payForDeliveryDeliveryAlreadyPaid() {
-            billRepository.Setup(a => a.FindByIdAndIsDeliveryPaidFalse(ServicesTestConstant.getBillId())).Returns((Bill) null);
+            _billRepository.Setup(a => a.FindByIdAndIsDeliveryPaidFalse(ServicesTestConstant.getBillId()))
+                .Returns((Bill) null);
 
             var actualResult =
-                Assert.Throws<DeliveryAlreadyPaidException>(()=>billService.PayForDelivery(ServicesTestConstant.getUserId(), ServicesTestConstant.getBillId()));
+                Assert.Throws<DeliveryAlreadyPaidException>(()=>_billService.PayForDelivery
+                    (ServicesTestConstant.getUserId(), ServicesTestConstant.getBillId()));
 
             Assert.AreEqual(typeof(DeliveryAlreadyPaidException), actualResult.GetType());
         }
@@ -168,11 +185,11 @@ namespace BLL_TEST
         {
             string userName = "name";
             List<Bill> bills = ServicesTestConstant.getBills();
-            billRepository.Setup(b => b.FindAllByUserNameAndIsDeliveryPaidTrue(userName)).Returns(bills);
+            _billRepository.Setup(b => b.FindAllByUserNameAndIsDeliveryPaidTrue(userName)).Returns(bills);
             
-            List<BillModel> result = billService.GetBillHistoryByUserName(userName);
+            List<BillModel> result = _billService.GetBillHistoryByUserName(userName);
 
-            billRepository.Verify(place => place.FindAllByUserNameAndIsDeliveryPaidTrue(It.IsAny<string>()), Times.Once());
+            _billRepository.Verify(place => place.FindAllByUserNameAndIsDeliveryPaidTrue(It.IsAny<string>()), Times.Once());
             Assert.AreEqual(ServicesTestConstant.getBillDto(), result[0]);
             Assert.AreEqual(bills.Count, result.Count);
         }

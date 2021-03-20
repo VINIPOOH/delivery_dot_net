@@ -8,7 +8,7 @@ namespace BLL.impl
 {
     public class LocalityService : ILocalityService
     {
-        private ILocalityRepository _localityRepository;
+        private readonly ILocalityRepository _localityRepository;
 
         public LocalityService(ILocalityRepository localityRepository)
         {

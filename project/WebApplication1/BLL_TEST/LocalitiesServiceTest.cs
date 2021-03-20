@@ -12,14 +12,14 @@ namespace BLL_TEST
 {
     public class LocalitiesServiceTest
     {
-        LocalityService localityService;
-        private Mock<ILocalityRepository> localityRepository;
+        LocalityService _localityService;
+        private Mock<ILocalityRepository> _localityRepository;
 
         [SetUp]
         public void SetupBeforeEachTest()
         {
-            localityRepository = new Mock<ILocalityRepository>();
-            localityService = new LocalityService(localityRepository.Object);
+            _localityRepository = new Mock<ILocalityRepository>();
+            _localityService = new LocalityService(_localityRepository.Object);
         }
         
         [Test]
@@ -27,11 +27,11 @@ namespace BLL_TEST
             Locality locality = ServicesTestConstant.getLocalityGet();
             List<Locality> localities = new List<Locality>{locality};
             LocalityModel localityDto = new LocalityModel(locality.LocalityId,locality.NameEn);
-            localityRepository.Setup(s => s.Get(null,null)).Returns(localities);
+            _localityRepository.Setup(s => s.Get(null,null)).Returns(localities);
 
-            List<LocalityModel> result = localityService.GetLocalities();
+            List<LocalityModel> result = _localityService.GetLocalities();
 
-            localityRepository.Verify(
+            _localityRepository.Verify(
                 place =>
                     place.Get(null,null),
                 Times.Once());

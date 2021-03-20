@@ -14,14 +14,14 @@ namespace BLL_TEST
 {
     public class UserServiceImplTest
     {
-        private IUserService userService;
+        private IUserService _userService;
         private Mock<IUserRepository> userRepository;
 
         [SetUp]
         public void SetupBeforeEachTest()
         {
             userRepository = new Mock<IUserRepository>();
-            userService = new UserService(userRepository.Object);
+            _userService = new UserService(userRepository.Object);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace BLL_TEST
             User user = ServicesTestConstant.getAddreser();
             userRepository.Setup(s => s.FindByName(It.IsAny<string>())).Returns(user);
 
-            User result = userService.FindByName(user.UserName);
+            User result = _userService.FindByName(user.UserName);
 
             Assert.AreEqual(user, result);
             userRepository.Verify(
@@ -46,7 +46,7 @@ namespace BLL_TEST
             userRepository.Setup(s => s.FindByEmail(It.IsAny<string>())).Returns((User) null);
 
             var actualResult =
-                Assert.Throws<UsernameNotFoundException>(() => userService.FindByName(user.UserName));
+                Assert.Throws<UsernameNotFoundException>(() => _userService.FindByName(user.UserName));
 
             Assert.AreEqual(typeof(UsernameNotFoundException), actualResult.GetType());
         }
@@ -62,7 +62,7 @@ namespace BLL_TEST
             userRepository.Setup(s => s.FindByName(It.IsAny<string>()))
                 .Returns(setIn);
 
-            User result = userService.ReplenishAccountBalance(expected.UserName, paymentSum);
+            User result = _userService.ReplenishAccountBalance(expected.UserName, paymentSum);
 
             userRepository.Verify(
                 place =>
@@ -81,7 +81,7 @@ namespace BLL_TEST
 
             var actualResult =
                 Assert.Throws<NoSuchUserException>(() =>
-                    userService.ReplenishAccountBalance(ServicesTestConstant.getUserId(), 10));
+                    _userService.ReplenishAccountBalance(ServicesTestConstant.getUserId(), 10));
 
             Assert.AreEqual(typeof(NoSuchUserException), actualResult.GetType());
         }
@@ -95,7 +95,7 @@ namespace BLL_TEST
 
             var actualResult =
                 Assert.Throws<ToMuchMoneyException>(() =>
-                    userService.ReplenishAccountBalance(ServicesTestConstant.getUserId(), 10));
+                    _userService.ReplenishAccountBalance(ServicesTestConstant.getUserId(), 10));
             Assert.AreEqual(typeof(ToMuchMoneyException), actualResult.GetType());
         }
     }

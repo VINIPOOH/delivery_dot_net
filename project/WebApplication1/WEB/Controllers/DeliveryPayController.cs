@@ -8,18 +8,18 @@ namespace WEB.Controllers
 {
     public class DeliveryPayController : Controller
     {
-        private IBillService billService;
+        private readonly IBillService _billService;
 
         public DeliveryPayController(IBillService billService)
         {
-            this.billService = billService;
+            this._billService = billService;
         }
 
         [HttpGet]
         public IActionResult userConfirmDelivers()
         {
             ViewData.Add("BillInfoToPayDtoList",
-                billService.GetBillsToPayByUserName(User.Identity.Name));
+                _billService.GetBillsToPayByUserName(User.Identity.Name));
             return View();
         }
 
@@ -27,14 +27,14 @@ namespace WEB.Controllers
         public IActionResult PayForDelivery(long billId) {
             try
             {
-                billService.PayForDelivery(User.Identity.Name, billId);
+                _billService.PayForDelivery(User.Identity.Name, billId);
             }
             catch (NotEnoughMoneyException e)
             {
                 ViewData.Add("notEnoughMoneyException", true);
             }
             ViewData.Add("BillInfoToPayDtoList",
-                billService.GetBillsToPayByUserName(User.Identity.Name));
+                _billService.GetBillsToPayByUserName(User.Identity.Name));
             return View("userConfirmDelivers");
         }
     }

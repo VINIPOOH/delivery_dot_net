@@ -10,29 +10,29 @@ namespace WEB.Controllers
     {
         private static string REDIRECT_USER_USER_DELIVERY_INITIATION = "redirect:/user/user-delivery-initiation";
 
-        private IBillService billService;
-        private ILocalityService localityService;
+        private readonly IBillService _billService;
+        private readonly ILocalityService _localityService;
 
         public UserDeliveryInitiationController(IBillService billService, ILocalityService localityService)
         {
-            this.billService = billService;
-            this.localityService = localityService;
+            this._billService = billService;
+            this._localityService = localityService;
         }
 
         [HttpGet]
         public IActionResult userDeliveryInitiation()
         {
-            ViewData.Add("localities", localityService.GetLocalities());
+            ViewData.Add("localities", _localityService.GetLocalities());
             return View();
         }
 
         [HttpPost]
         public IActionResult userDeliveryInitiationPost(DeliveryOrderCreateModel deliveryOrderCreateDto)
         {
-            ViewData.Add("localities", localityService.GetLocalities());
+            ViewData.Add("localities", _localityService.GetLocalities());
             try
             {
-                billService.InitializeBill(deliveryOrderCreateDto, User.Identity.Name);
+                _billService.InitializeBill(deliveryOrderCreateDto, User.Identity.Name);
             }
             catch (NoSuchWayException e)
             {

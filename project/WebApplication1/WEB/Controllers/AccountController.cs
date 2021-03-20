@@ -9,23 +9,23 @@ namespace WEB.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
 
         public AccountController(UserManager<User> userManager,
             SignInManager<User> signInManager,
             IConfiguration configuration)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
             _configuration = configuration;
         }
         
         [HttpGet]
         public IActionResult Logout()
         {
-            signInManager.SignOutAsync();
+            _signInManager.SignOutAsync();
             return RedirectToAction("Home","Home");
         }
        
@@ -45,7 +45,7 @@ namespace WEB.Controllers
                 user.UserName = model.Email;
                 user.Email = model.Email;
 
-                var result = await userManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
@@ -73,7 +73,7 @@ namespace WEB.Controllers
             if (ModelState.IsValid)
             {
                 var result =
-                    await signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, false);
+                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, false);
 
                 if (result.Succeeded)
                 {

@@ -6,16 +6,16 @@ namespace WEB.Controllers
 {
     public class BillHistoryController:Controller
     {
-        private IBillService billService;
+        private readonly IBillService _billService;
 
         public BillHistoryController(IBillService billService) {
-            this.billService = billService;
+            this._billService = billService;
         }
 
 
         [HttpGet]
         public IActionResult userStatistic() {
-            ViewData.Add("BillDtoPage", billService.GetBillHistoryByUserName(User.Identity.Name));
+            ViewData.Add("BillDtoPage", _billService.GetBillHistoryByUserName(User.Identity.Name));
             return View();
         }
     }

@@ -5,6 +5,10 @@ namespace BLL.dto
 {
     public class DeliveryOrderCreateModel
     {
+        public DeliveryOrderCreateModel()
+        {
+        }
+
         public DeliveryOrderCreateModel(int deliveryWeight, long localitySandId, long localityGetId, string addresseeEmail)
         {
             DeliveryWeight = deliveryWeight;

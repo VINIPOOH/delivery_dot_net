@@ -35,10 +35,7 @@ namespace DAL.Migrations
                     b.Property<bool>("IsDeliveryPaid")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
@@ -47,7 +44,7 @@ namespace DAL.Migrations
                     b.HasIndex("DeliveryId")
                         .IsUnique();
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bills");
                 });
@@ -62,8 +59,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<long>("AddresseeUserId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("AddresseeUserId")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("IsPackageReceived")
                         .HasColumnType("tinyint(1)");
@@ -375,9 +373,6 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("UserMoneyInCents")
                         .HasColumnType("bigint");
 
@@ -394,7 +389,7 @@ namespace DAL.Migrations
 
                     b.HasOne("DAL.Entity.User", "User")
                         .WithMany("Bills")
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

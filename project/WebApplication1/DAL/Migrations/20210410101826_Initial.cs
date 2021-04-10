@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class Initiall : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,6 @@ namespace DAL.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
-                    UserId = table.Column<long>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     UserMoneyInCents = table.Column<long>(nullable: true)
                 },
@@ -221,7 +220,7 @@ namespace DAL.Migrations
                     DeliveryId = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     WayId = table.Column<long>(nullable: false),
-                    AddresseeUserId = table.Column<long>(nullable: false),
+                    AddresseeUserId = table.Column<string>(nullable: false),
                     AddresseeId = table.Column<string>(nullable: false),
                     IsPackageReceived = table.Column<bool>(nullable: false),
                     Weight = table.Column<int>(nullable: false)
@@ -276,8 +275,7 @@ namespace DAL.Migrations
                     BillId = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DeliveryId = table.Column<long>(nullable: false),
-                    UserId = table.Column<long>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
                     IsDeliveryPaid = table.Column<bool>(nullable: false),
                     CostInCents = table.Column<long>(nullable: false),
                     DateOfPay = table.Column<DateTime>(nullable: false)
@@ -292,8 +290,8 @@ namespace DAL.Migrations
                         principalColumn: "DeliveryId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Bills_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Bills_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -343,9 +341,9 @@ namespace DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bills_UserId1",
+                name: "IX_Bills_UserId",
                 table: "Bills",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Deliveries_AddresseeId",

@@ -1,5 +1,6 @@
 ﻿using BLL.impl;
 using BLL.Intarfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WEB.Controllers
@@ -14,6 +15,7 @@ namespace WEB.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult userStatistic() {
             ViewData.Add("BillDtoPage", _billService.GetBillHistoryByUserName(User.Identity.Name));
             return View();

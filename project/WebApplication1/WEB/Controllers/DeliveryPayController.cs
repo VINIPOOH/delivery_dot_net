@@ -2,6 +2,7 @@
 using BLL.exception;
 using BLL.Intarfaces;
 using DAL.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WEB.Controllers
@@ -16,6 +17,7 @@ namespace WEB.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult userConfirmDelivers()
         {
             ViewData.Add("BillInfoToPayDtoList",
@@ -24,6 +26,7 @@ namespace WEB.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult PayForDelivery(long billId) {
             try
             {

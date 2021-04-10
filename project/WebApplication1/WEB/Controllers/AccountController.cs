@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DAL.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,7 @@ namespace WEB.Controllers
         }
         
         [HttpGet]
+        [Authorize]
         public IActionResult Logout()
         {
             _signInManager.SignOutAsync();

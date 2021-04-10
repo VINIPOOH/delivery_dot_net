@@ -1,6 +1,7 @@
 ﻿using BLL.exception;
 using BLL.impl;
 using BLL.Intarfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WEB.Controllers
@@ -15,6 +16,7 @@ namespace WEB.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult userProfile()
         {
             ViewData.Add("userMoneyInCents",_userService.FindByName(User.Identity.Name).UserMoneyInCents);
@@ -22,6 +24,7 @@ namespace WEB.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult userProfileReplenish(long money)
         {
             if (money <= 0) {

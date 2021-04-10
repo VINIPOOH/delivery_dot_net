@@ -2,6 +2,7 @@
 using BLL.dto;
 using BLL.exception;
 using BLL.Intarfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WEB.Controllers
@@ -20,6 +21,7 @@ namespace WEB.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult userDeliveryInitiation()
         {
             ViewData.Add("localities", _localityService.GetLocalities());
@@ -27,6 +29,7 @@ namespace WEB.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult userDeliveryInitiationPost(DeliveryOrderCreateModel deliveryOrderCreateDto)
         {
             ViewData.Add("localities", _localityService.GetLocalities());

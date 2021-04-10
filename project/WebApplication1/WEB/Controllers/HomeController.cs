@@ -28,7 +28,6 @@ namespace WEB.Controllers
 
 
         [HttpPost]
-        [Authorize]
         public IActionResult HomeCount(DeliveryInfoRequestModel deliveryInfoRequestDto)
         {
             try

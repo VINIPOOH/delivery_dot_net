@@ -7,9 +7,7 @@ namespace DAL.Entity
 {
     public class Locality
     {
-        [Required]
         public long LocalityId{ get; set; }
-        [Required]
         public string NameEn{ get; set; }
         
         [InverseProperty("LocalitySand")]

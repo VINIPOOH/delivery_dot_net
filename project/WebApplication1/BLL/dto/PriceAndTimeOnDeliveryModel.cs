@@ -21,7 +21,9 @@
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((PriceAndTimeOnDeliveryModel) obj);
+            PriceAndTimeOnDeliveryModel priceAndTimeOnDeliveryModel = (PriceAndTimeOnDeliveryModel) obj;
+            return CostInCents.Equals(priceAndTimeOnDeliveryModel.CostInCents) &&
+                   TimeOnWayInHours.Equals(priceAndTimeOnDeliveryModel.TimeOnWayInHours);
         }
 
         public override int GetHashCode()

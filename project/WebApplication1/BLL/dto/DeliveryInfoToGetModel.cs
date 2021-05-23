@@ -4,7 +4,8 @@ namespace BLL.dto
 {
     public class DeliveryInfoToGetDto
     {
-        public DeliveryInfoToGetDto(string addresserEmail, long deliveryId, string localitySandName, string localityGetName)
+        public DeliveryInfoToGetDto(string addresserEmail, long deliveryId, string localitySandName,
+            string localityGetName)
         {
             AddresserEmail = addresserEmail;
             DeliveryId = deliveryId;
@@ -12,13 +13,14 @@ namespace BLL.dto
             LocalityGetName = localityGetName;
         }
 
-        public string AddresserEmail{ get; set; }
-        public long DeliveryId{ get; set; }
-        public string LocalitySandName{ get; set; }
+        public string AddresserEmail { get; set; }
+        public long DeliveryId { get; set; }
+        public string LocalitySandName { get; set; }
 
         protected bool Equals(DeliveryInfoToGetDto other)
         {
-            return AddresserEmail == other.AddresserEmail && DeliveryId == other.DeliveryId && LocalitySandName == other.LocalitySandName && LocalityGetName == other.LocalityGetName;
+            return AddresserEmail == other.AddresserEmail && DeliveryId == other.DeliveryId &&
+                   LocalitySandName == other.LocalitySandName && LocalityGetName == other.LocalityGetName;
         }
 
         public override bool Equals(object obj)
@@ -26,7 +28,15 @@ namespace BLL.dto
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((DeliveryInfoToGetDto) obj);
+            DeliveryInfoToGetDto deliveryInfoToGetDto = (DeliveryInfoToGetDto) obj;
+            return this.DeliveryId.Equals(
+                       deliveryInfoToGetDto.DeliveryId)
+                   && this.LocalityGetName.Equals(
+                       deliveryInfoToGetDto
+                           .LocalityGetName) &&
+                   LocalitySandName.Equals(
+                       deliveryInfoToGetDto
+                           .LocalitySandName);
         }
 
         public override int GetHashCode()
@@ -41,6 +51,6 @@ namespace BLL.dto
             }
         }
 
-        public string LocalityGetName{ get; set; }
+        public string LocalityGetName { get; set; }
     }
 }

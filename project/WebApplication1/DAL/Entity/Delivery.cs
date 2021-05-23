@@ -5,18 +5,12 @@ namespace DAL.Entity
     public class Delivery
     {
         public Bill Bill { get; set; }
-        [Required]
         public long DeliveryId{ get; set; }
-        [Required]
         public long WayId { get; set; }
-        [Required]
         public Way Way { get; set; }
-        [Required]
         public string AddresseeUserId { get; set; }
-        [Required]
         public User Addressee { get; set; }
         public bool IsPackageReceived{ get; set; }
-        [Required]
         public int Weight{ get; set; }
 
         public Delivery()

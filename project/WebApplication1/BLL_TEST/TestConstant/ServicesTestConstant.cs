@@ -57,7 +57,7 @@ namespace BLL_TEST.TestConstant
         public static User getAdversee()
         {
             User user = new User("userName", "password", 0L);
-            user.Id = USER_ID;
+            user.Id = USER_ID+1;
             return user;
         }
 
@@ -69,7 +69,7 @@ namespace BLL_TEST.TestConstant
         public static User getAddreser()
         {
             User user = new User("userName", "password", 300L);
-            user.Id = USER_ID;
+            user.Id = USER_ID+2;
             user.Email = "email";
             return user;
         }

@@ -7,19 +7,13 @@ namespace DAL.Entity
 {
     public class Bill
     {
-        [Required]
         public long DeliveryId { get; set; }
-        [Required]
-        public Delivery Delivery { get; set; }
-        [Required]
+       public Delivery Delivery { get; set; }
         public long BillId{ get; set; }
-        [Required]
         public string
             UserId { get; set; }
-        [Required]
         public User User { get; set; }
         public bool IsDeliveryPaid{ get; set; }
-        [Required]
         public long CostInCents{ get; set; }
         public DateTime DateOfPay{ get; set; }
 

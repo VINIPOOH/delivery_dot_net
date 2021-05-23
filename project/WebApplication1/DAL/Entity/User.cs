@@ -21,9 +21,7 @@ namespace DAL.Entity
         public List<Bill> Bills { get; set; }
         [InverseProperty("Addressee")]
         public List<Delivery> Deliveries{ get; set; }
-        [Required]
         public string Password{ get; set; }
-        [Required]
         public long UserMoneyInCents{ get; set; }
 
         protected bool Equals(User other)
